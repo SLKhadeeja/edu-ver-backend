@@ -1,31 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument } from '../user/entities/user.entity';
 import * as jwt from 'jsonwebtoken';
 import { LoginResponseDto } from './dto/login.dto';
+import { Student, StudentDocument } from 'src/students/entities/student.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(Student.name) private studentModel: Model<StudentDocument>,
+  ) {}
 
-  async register(name: string, email: string, password: string): Promise<User> {
-    const user = new this.userModel({ name, email, password });
-    return user.save();
+  async register(
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<Student> {
+    const student = new this.studentModel({ name, email, password });
+    return student.save();
   }
 
   async login(email: string, password: string): Promise<LoginResponseDto> {
-    const user = await this.userModel.findOne({ email }).exec();
-    if (!user || !(await user.comparePassword(password))) {
+    const student = await this.studentModel.findOne({ email }).exec();
+    if (!student || !(await student.comparePassword(password))) {
       throw new Error('Invalid credentials');
     }
 
-    console.log(user.id);
     const res = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      token: jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      id: student.id,
+      name: student.name,
+      email: student.email,
+      token: jwt.sign({ id: student._id }, process.env.JWT_SECRET, {
         expiresIn: '1h',
       }),
     };

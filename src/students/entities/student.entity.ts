@@ -1,14 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 
-export type UserDocument = User &
+export type StudentDocument = Student &
   Document & {
     comparePassword: (password: string) => Promise<boolean>;
   };
 
 @Schema()
-export class User {
+export class Student {
   @Prop({ required: true })
   name: string;
 
@@ -17,19 +17,22 @@ export class User {
 
   @Prop({ required: true })
   password: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'Institution', required: true })
+  institutionId: Types.ObjectId;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const StudentSchema = SchemaFactory.createForClass(Student);
 
 // Add instance method to compare passwords
-UserSchema.methods.comparePassword = async function (
+StudentSchema.methods.comparePassword = async function (
   password: string,
 ): Promise<boolean> {
   return bcrypt.compare(password, this.password);
 };
 
 // Pre-save hook to hash the password
-UserSchema.pre<UserDocument>('save', async function (next) {
+StudentSchema.pre<StudentDocument>('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
