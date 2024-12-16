@@ -7,7 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import { Student, StudentDocument } from 'src/students/entities/student.entity';
+import { Student, StudentDocument } from 'src/students/schemas/student.schema';
 
 @Injectable()
 export class StudentAuthService {

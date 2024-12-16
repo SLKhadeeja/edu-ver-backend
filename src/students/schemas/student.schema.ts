@@ -9,14 +9,38 @@ export type StudentDocument = Student &
 
 @Schema()
 export class Student {
-  @Prop({ required: true })
-  name: string;
+  @Prop({ required: true, unique: true })
+  studentId: string;
 
   @Prop({ required: true, unique: true })
   email: string;
 
   @Prop({ required: true })
+  firstName: string;
+
+  @Prop({ required: true })
+  middleName?: string;
+
+  @Prop({ required: true })
+  lastName: string;
+
+  @Prop({ required: true })
+  dob: string;
+
+  @Prop({ required: true })
+  address: string;
+
+  @Prop({ required: true })
+  phone: string;
+
+  @Prop({ required: true })
   password: string;
+
+  @Prop({
+    required: true,
+    enum: ['male', 'female'],
+  })
+  gender: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Institution', required: true })
   institutionId: Types.ObjectId;

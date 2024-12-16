@@ -10,7 +10,7 @@ import * as jwt from 'jsonwebtoken';
 import {
   Institution,
   InstitutionDocument,
-} from 'src/instituitons/entities/institution.entity';
+} from 'src/instituitons/schemas/institution.schema';
 
 @Injectable()
 export class InstitutionAuthService {

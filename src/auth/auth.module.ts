@@ -5,7 +5,7 @@ import {
   InstitutionAuthController,
   StudentAuthController,
 } from './auth.controller';
-import { Student, StudentSchema } from 'src/students/entities/student.entity';
+import { Student, StudentSchema } from 'src/students/schemas/student.schema';
 
 @Module({
   imports: [

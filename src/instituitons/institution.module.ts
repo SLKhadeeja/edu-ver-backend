@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Institution, InstitutionSchema } from './entities/institution.entity';
+import { Institution, InstitutionSchema } from './schemas/institution.schema';
 import { InstitutionController } from './institution.controller';
 import { InstitutionService } from './institution.service';
 

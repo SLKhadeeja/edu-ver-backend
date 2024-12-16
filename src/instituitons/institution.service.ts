@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import {
   Institution,
   InstitutionDocument,
-} from './entities/institution.entity';
+} from './schemas/institution.schema';
 import { CreateInstitutionDto } from './dto/create-instituion.dto';
 import { UpdateInstitutionDto } from './dto/update-institution.dto';
 

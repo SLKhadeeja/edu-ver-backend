@@ -1,5 +1,12 @@
 export class CreateStudentDto {
-  name: string;
+  institutionId: string;
+  studentId: string;
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  dob: string;
+  gender: 'male' | 'female';
+  address: string;
   email: string;
-  password: string;
+  phone: string;
 }
