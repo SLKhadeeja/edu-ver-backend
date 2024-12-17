@@ -11,6 +11,8 @@ import {
   Institution,
   InstitutionDocument,
 } from 'src/instituitons/schemas/institution.schema';
+import { CreateInstitutionDto } from 'src/instituitons/dto/create-instituion.dto';
+import { InstitutionDto } from 'src/instituitons/dto/institution.dto';
 
 @Injectable()
 export class InstitutionAuthService {
@@ -19,28 +21,24 @@ export class InstitutionAuthService {
     private institutionModel: Model<InstitutionDocument>,
   ) {}
 
-  async register(
-    name: string,
-    email: string,
-    password: string,
-  ): Promise<Institution> {
+  async register(payload: CreateInstitutionDto): Promise<Institution> {
     const existingInstitution = await this.institutionModel
-      .findOne({ email })
+      .findOne({ email: payload.email })
       .exec();
     if (existingInstitution) {
       throw new ConflictException('Institution with this email already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     const institution = new this.institutionModel({
-      name,
-      email,
-      password: hashedPassword,
+      ...payload,
     });
     return institution.save();
   }
 
-  async login(email: string, password: string): Promise<string> {
+  async login(
+    email: string,
+    password: string,
+  ): Promise<{ token: string; institution: InstitutionDto }> {
     const institution = await this.institutionModel.findOne({ email }).exec();
     if (
       !institution ||
@@ -49,8 +47,16 @@ export class InstitutionAuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return jwt.sign({ id: institution._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: institution._id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _, ...institutionData } = institution.toObject();
+
+    return {
+      institution: institutionData,
+      token,
+    };
   }
 }

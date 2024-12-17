@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
+import { TGender } from 'src/interfaces/gender.interface';
 
 export type StudentDocument = Student &
   Document & {
@@ -40,10 +41,10 @@ export class Student {
     required: true,
     enum: ['male', 'female'],
   })
-  gender: string;
+  gender: TGender;
 
   @Prop({ type: Types.ObjectId, ref: 'Institution', required: true })
-  institutionId: Types.ObjectId;
+  institution: Types.ObjectId;
 }
 
 export const StudentSchema = SchemaFactory.createForClass(Student);

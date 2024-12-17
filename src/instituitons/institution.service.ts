@@ -1,10 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import {
-  Institution,
-  InstitutionDocument,
-} from './schemas/institution.schema';
+import { Institution, InstitutionDocument } from './schemas/institution.schema';
 import { CreateInstitutionDto } from './dto/create-instituion.dto';
 import { UpdateInstitutionDto } from './dto/update-institution.dto';
 
